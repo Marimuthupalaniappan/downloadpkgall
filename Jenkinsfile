@@ -81,7 +81,7 @@ pipeline {
 					//def index=disposition.indexOf('filename')+9;
 					//def lastindex=disposition.indexOf('.zip', index);
 					//def filename=disposition.substring(index + 1, lastindex + 4);
-					//def folder=env.GITFolder + '/' + filename.substring(0, filename.indexOf('.zip'));
+					def folder=env.GITFolder + '/' + filename.substring(0, filename.indexOf('.zip'));
 					//println("Before fileOperation")
 					//fileOperations([fileUnZipOperation(filePath: tempfile, targetLocation: folder)])
 					cpiDownloadResponse1.close();
