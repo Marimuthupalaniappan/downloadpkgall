@@ -57,8 +57,8 @@ pipeline {
 					//}
 					//download and extract package from tenant
 					println("Downloading package");
-					def tempfile = UUID.randomUUID().toString() + ".zip";
-					//def tempfile = node.'*:properties'.'*:Id'.text() + ".zip";
+					//def tempfile = UUID.randomUUID().toString() + ".zip";
+					def tempfile = node.'*:properties'.'*:Id'.text() + ".zip";
 					//println("here is the random value:" + tempfile);
 					
 					
@@ -67,8 +67,8 @@ pipeline {
 						ignoreSslErrors: false, 
 						httpMode: 'GET', 
 						responseHandle: 'LEAVE_OPEN', 
-						//validResponseCodes: '100:399, 404',
-						validResponseCodes: '200:404',
+						validResponseCodes: '100:399, 404',
+						//validResponseCodes: '200:404',
 						timeout: 30,  
 						outputFile: tempfile,
 					url: 'https://' + env.CPIHost + '/api/v1/IntegrationPackages';
