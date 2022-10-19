@@ -56,7 +56,7 @@ pipeline {
 					//	deleteDir();
 					//}
 					//download and extract package from tenant
-					println("Downloading package");
+					println("Downloading List of Integration pkg in a file");
 					//def tempfile = UUID.randomUUID().toString() + ".zip";
 					def tempfile = UUID.randomUUID().toString();
 					//def tempfile = node.'*:properties'.'*:Id'.text() + ".zip";
@@ -114,7 +114,7 @@ pipeline {
 						timeout: 30,  
 						outputFile: tempfile,
 						//url: 'https://' + env.CPIHost + '/api/v1/IntegrationPackages(\''+ env.IntegrationPkg + '\')/$value';
-						//url: 'https://' + env.CPIHost + '/api/v1/IntegrationPackages(\''+ node.'*:properties'.'*:Id'.text() + '\')/$value';
+						url: 'https://' + env.CPIHost + '/api/v1/IntegrationPackages(\''+ node.'*:properties'.'*:Id'.text() + '\')/$value';
 					if (cpiDownloadResponse.status == 404){
 						//invalid Package ID
 						error("Received http status code 404. Please check if the Package ID that you have provided exists on the tenant.");
