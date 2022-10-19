@@ -80,9 +80,9 @@ pipeline {
 						error("Received http status code 404. Please check if the Package ID that you have provided exists on the tenant.");
 					}
 					def disposition1 = cpiDownloadResponse1.headers.toString();
-					def index1=disposition.indexOf('filename1')+9;
-					def lastindex1=disposition.indexOf('.zip', index1);
-					def filename1=disposition.substring(index1 + 1, lastindex1 + 4);
+					def index1=disposition1.indexOf('filename1')+9;
+					def lastindex1=disposition1.indexOf('.zip', index1);
+					def filename1=disposition1.substring(index1 + 1, lastindex1 + 4);
 					def folder1=env.GITFolder + '/' + filename1.substring(0, filename1.indexOf('.zip'));
 					//println("Before fileOperation")
 					fileOperations([fileUnZipOperation(filePath: tempfile, targetLocation: folder1)])
