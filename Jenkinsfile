@@ -77,24 +77,22 @@ pipeline {
 						//invalid Package ID
 						error("Received http status code 404. Please check if the Package ID that you have provided exists on the tenant.");
 					}
-					//def disposition = cpiDownloadResponse1.headers.toString();
-					//def index=disposition.indexOf('filename')+9;
-					//def lastindex=disposition.indexOf('.zip', index);
-					//def filename=disposition.substring(index + 1, lastindex + 4);
+					def disposition = cpiDownloadResponse1.headers.toString();
+					def index=disposition.indexOf('filename')+9;
+					def lastindex=disposition.indexOf('.zip', index);
+					def filename=disposition.substring(index + 1, lastindex + 4);
 					def folder=env.GITFolder + '/' + filename.substring(0, filename.indexOf('.zip'));
 					//println("Before fileOperation")
-					//fileOperations([fileUnZipOperation(filePath: tempfile, targetLocation: folder)])
+					fileOperations([fileUnZipOperation(filePath: tempfile, targetLocation: folder)])
 					cpiDownloadResponse1.close();
 					//println("After fileOperation")
 					//remove the zip
 					//fileOperations([fileDeleteOperation(excludes: '', includes: tempfile)])
 					//println("After fileDeleteOperation")	
 					dir(folder){
-						//println("Now in the git add command place")
 						sh 'git add .'
-						//println("After the git add command")
-					}
-					//println("Store integration package in Git")
+						}
+					println("Store integration package in Git")
 					//withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: env.GITCredentials ,usernameVariable: 'GIT_AUTHOR_NAME', passwordVariable: 'GIT_PASSWORD']]) {  
 						//sh 'git diff-index --quiet HEAD || git commit -am ' + '\'' + env.GitComment + '\''
 						//sh('git push --push-option=ci-skip https://${GIT_AUTHOR_NAME}:${GIT_PASSWORD}@' + env.GITRepositoryURL + ' HEAD:' + env.GITBranch)
