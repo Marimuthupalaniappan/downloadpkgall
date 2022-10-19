@@ -94,10 +94,10 @@ pipeline {
         				assert feed.entry instanceof groovy.util.NodeList 
        					assert feed.title.text() == 'IntegrationPackages' 
       
-       					Iterator it = feed.entry.iterator();
+       					Iterator itt = feed.entry.iterator();
         				List result = new ArrayList();
-        				while (it.hasNext()) {
-          				Node node = (Node) it.next();
+        				while (itt.hasNext()) {
+          				Node node = (Node) itt.next();
           				result.add(node.'*:properties'.'*:Id'.text());
           				println(node.'*:properties'.'*:Id'.text());
        					 }
