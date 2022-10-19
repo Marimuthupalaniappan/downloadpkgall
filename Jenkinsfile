@@ -56,7 +56,7 @@ pipeline {
 					println("here is the random value:" + tempfile);
 									
 					def cpiDownloadResponse1 = httpRequest httpProxy: 'http://rb-proxy-sl.rbesz01.com:8080', 
-						customHeaders: [[maskValue: false, name: 'Authorization', value: token, Content-Type: 'application/atom+xml;type=feed;charset=utf-8' ]], 
+						customHeaders: [[maskValue: false, name: 'Authorization', value: token, ContentType: 'application/atom+xml;type=feed;charset=utf-8' ]], 
 						ignoreSslErrors: false, 
 						httpMode: 'GET', 
 						responseHandle: 'LEAVE_OPEN', 
