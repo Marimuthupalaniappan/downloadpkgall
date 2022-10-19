@@ -51,18 +51,10 @@ pipeline {
 				   	} catch (Exception e) {
 						error("Requesting the oauth token for Cloud Integration failed:\n${e}")
 					}
-					//delete the old package content so that only the latest content gets stored
-					//dir(env.GITFolder + '/' + env.IntegrationPkg){
-					//	deleteDir();
-					//}
-					//download and extract package from tenant
-					println("Downloading List of Integration pkg in a file");
-					//def tempfile = UUID.randomUUID().toString() + ".zip";
 					def tempfile = UUID.randomUUID().toString();
 					//def tempfile = node.'*:properties'.'*:Id'.text() + ".zip";
-					//println("here is the random value:" + tempfile);
-					
-					
+					println("here is the random value:" + tempfile);
+									
 					def cpiDownloadResponse1 = httpRequest httpProxy: 'http://rb-proxy-sl.rbesz01.com:8080', 
 						customHeaders: [[maskValue: false, name: 'Authorization', value: token, name: 'Content-Type', value: 'application/atom+xml;type=feed;charset=utf-8' ]], 
 						ignoreSslErrors: false, 
@@ -73,7 +65,7 @@ pipeline {
 						timeout: 30,  
 						outputFile: tempfile,
 					url: 'https://' + env.CPIHost + '/api/v1/IntegrationPackages';
-					//println("here is the information of URL:"+ tempfile);
+					println("here is the information of URL:"+ tempfile);
 					
 					if (cpiDownloadResponse1.status == 404){
 						//invalid Package ID
@@ -88,45 +80,45 @@ pipeline {
 					fileOperations([fileUnZipOperation(filePath: tempfile, targetLocation: folder1)])
 					cpiDownloadResponse1.close();
 					
-					def body = tempfile;
-        				def feed = new XmlParser().parseText(body);
+					//def body = tempfile;
+        				//def feed = new XmlParser().parseText(body);
        					 //checks  
-        				assert feed.entry instanceof groovy.util.NodeList 
-       					assert feed.title.text() == 'IntegrationPackages' 
+        				//assert feed.entry instanceof groovy.util.NodeList 
+       					//assert feed.title.text() == 'IntegrationPackages' 
       
-       					Iterator itt = feed.entry.iterator();
-        				List result = new ArrayList();
-        				while (itt.hasNext()) {
-          				Node node = (Node) itt.next();
-          				result.add(node.'*:properties'.'*:Id'.text());
-          				println(node.'*:properties'.'*:Id'.text());
-       					 }
+       					//Iterator itt = feed.entry.iterator();
+        				//List result = new ArrayList();
+        				//while (itt.hasNext()) {
+          				//Node node = (Node) itt.next();
+          				//result.add(node.'*:properties'.'*:Id'.text());
+          				//println(node.'*:properties'.'*:Id'.text());
+       					// }
 
-					println("Downloading package");
+					//println("Downloading package");
 					//def tempfile = UUID.randomUUID().toString() + ".zip";
 					//def tempfile = IntegrationPkg + ".zip";
 					//println("here is the random value:" + tempfile);
-					def cpiDownloadResponse = httpRequest httpProxy: 'http://rb-proxy-sl.rbesz01.com:8080',acceptType: 'APPLICATION_ZIP', 
-						customHeaders: [[maskValue: false, name: 'Authorization', value: token]], 
-						ignoreSslErrors: false, 
-						responseHandle: 'LEAVE_OPEN', 
-						validResponseCodes: '100:399, 404',
-						timeout: 30,  
-						outputFile: tempfile,
+					//def cpiDownloadResponse = httpRequest httpProxy: 'http://rb-proxy-sl.rbesz01.com:8080',acceptType: 'APPLICATION_ZIP', 
+					//	customHeaders: [[maskValue: false, name: 'Authorization', value: token]], 
+					//	ignoreSslErrors: false, 
+					//	responseHandle: 'LEAVE_OPEN', 
+					//	validResponseCodes: '100:399, 404',
+					//	timeout: 30,  
+					//	outputFile: tempfile,
 						//url: 'https://' + env.CPIHost + '/api/v1/IntegrationPackages(\''+ env.IntegrationPkg + '\')/$value';
-						url: 'https://' + env.CPIHost + '/api/v1/IntegrationPackages(\''+ node.'*:properties'.'*:Id'.text() + '\')/$value';
-					if (cpiDownloadResponse.status == 404){
+					//	url: 'https://' + env.CPIHost + '/api/v1/IntegrationPackages(\''+ node.'*:properties'.'*:Id'.text() + '\')/$value';
+					//if (cpiDownloadResponse.status == 404){
 						//invalid Package ID
-						error("Received http status code 404. Please check if the Package ID that you have provided exists on the tenant.");
-					}
-					def disposition = cpiDownloadResponse.headers.toString();
-					def index=disposition.indexOf('filename')+9;
-					def lastindex=disposition.indexOf('.zip', index);
-					def filename=disposition.substring(index + 1, lastindex + 4);
-					def folder=env.GITFolder + '/' + filename.substring(0, filename.indexOf('.zip'));
+					//	error("Received http status code 404. Please check if the Package ID that you have provided exists on the tenant.");
+					//}
+					//def disposition = cpiDownloadResponse.headers.toString();
+					//def index=disposition.indexOf('filename')+9;
+					//def lastindex=disposition.indexOf('.zip', index);
+					//def filename=disposition.substring(index + 1, lastindex + 4);
+					//def folder=env.GITFolder + '/' + filename.substring(0, filename.indexOf('.zip'));
 					//println("Before fileOperation")
 					//fileOperations([fileUnZipOperation(filePath: tempfile, targetLocation: folder)])
-					cpiDownloadResponse.close();
+					//cpiDownloadResponse.close();
 					
 					
 					//println("After fileOperation")
