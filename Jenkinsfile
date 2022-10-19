@@ -58,7 +58,8 @@ pipeline {
 					//download and extract package from tenant
 					println("Downloading package");
 					//def tempfile = UUID.randomUUID().toString() + ".zip";
-					def tempfile = node.'*:properties'.'*:Id'.text() + ".zip";
+					def tempfile = UUID.randomUUID().toString();
+					//def tempfile = node.'*:properties'.'*:Id'.text() + ".zip";
 					//println("here is the random value:" + tempfile);
 					
 					
