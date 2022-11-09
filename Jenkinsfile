@@ -51,8 +51,8 @@ pipeline {
 				   	} catch (Exception e) {
 						error("Requesting the oauth token for Cloud Integration failed:\n${e}")
 					}
-					def tempfile = UUID.randomUUID().toString();
-					//def tempfile = node.'*:properties'.'*:Id'.text() + ".zip";
+					//def tempfile = UUID.randomUUID().toString();
+					def tempfile = node.'*:properties'.'*:Id'.text() + ".zip";
 					println("here is the random value:" + tempfile);
 									
 					def cpiDownloadResponse1 = httpRequest httpProxy: 'http://rb-proxy-sl.rbesz01.com:8080', 
