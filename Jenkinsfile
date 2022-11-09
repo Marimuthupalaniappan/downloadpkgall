@@ -48,12 +48,13 @@ pipeline {
 					url: 'https://' + env.CPIOAuthHost + '/oauth/token?grant_type=client_credentials';
 					def jsonObjToken = readJSON text: getTokenResp.content
 					token = "Bearer " + jsonObjToken.access_token
+					println("Token value:" + token);
 				   	} catch (Exception e) {
 						error("Requesting the oauth token for Cloud Integration failed:\n${e}")
 					}
 					//def tempfile = UUID.randomUUID().toString();
 					def tempfile = node.'*:properties'.'*:Id'.text() + ".zip";
-					println("here is the random value:" + tempfile);
+					println("here is the Tempfile value:" + tempfile);
 									
 					def cpiDownloadResponse1 = httpRequest httpProxy: 'http://rb-proxy-sl.rbesz01.com:8080', 
 						customHeaders: [[maskValue: false, name: 'Authorization', value: token, ContentType: 'application/atom+xml;type=feed;charset=utf-8' ]], 
