@@ -37,7 +37,6 @@ pipeline {
 					//get token
 					println("Request token");
 					def token;
-					def tempfile = node.'*:properties'.'*:Id'.text() + ".zip";
 					try{
 						def getTokenResp = httpRequest httpProxy: 'http://rb-proxy-sl.rbesz01.com:8080',acceptType: 'APPLICATION_JSON', 
 						authentication: env.CPIOAuthCredentials, 
@@ -52,7 +51,7 @@ pipeline {
 				   	} catch (Exception e) {
 						error("Requesting the oauth token for Cloud Integration failed:\n${e}")
 					}
-					//def tempfile = UUID.randomUUID().toString();
+					def tempfile = UUID.randomUUID().toString();
 					//def tempfile = node.'*:properties'.'*:Id'.text() + ".zip";
 					println("here is the random value:" + tempfile);
 									
